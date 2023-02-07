@@ -7,7 +7,7 @@ if [ -d "$TARGETDIR" ];
 then
   cd $TARGETDIR
   docker compose down
-  docker compose --env-file ../../.env up -d
+  docker compose up -d
   cd $INITDIR
 else
   echo "Service '$1' does not exist."

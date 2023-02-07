@@ -6,8 +6,11 @@ export $(grep -v '^#' .env | xargs)
 ## Initial configuration
 echo Initial configuration
 
-echo Create directories
+echo   - Create directories
 mkdir -p $DOCKERDIR/shared
+
+echo   - Create symbolic links for '.env'
+for DIR in $(pwd)/services/*; do ln -s $(pwd)/.env $DIR/.env; done
 
 ## Traefik2
 echo Traefik

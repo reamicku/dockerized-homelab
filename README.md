@@ -51,8 +51,8 @@ Use following commands to control services:
 
 Command | Explaination
 -|-
-`docker compose --env-file ../../.env up -d` | Starts a given service
-`docker compose --env-file ../../.env down`  | Stops a given service
+`docker compose up -d` | Starts a given service
+`docker compose down`  | Stops a given service
 
 Or use following scripts to do the same:
 
