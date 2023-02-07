@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Import env variables
-export $(xargs < .env)
+export $(grep -v '^#' .env | xargs)
 
 ## Initial configuration
 echo Initial configuration
