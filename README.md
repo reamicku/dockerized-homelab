@@ -19,23 +19,28 @@ This is my homelab. Heavily work in progress.
 
 ---
 
-1. Run the initial setup file.
+1. Copy `.env.example` to `.env` and modify variables.
+    ```bash
+    cp .env.example .env
+    ```
+
+2. Change permissions for `.env` file
+    ```bash
+    chown 600 .env
+    ```
+
+3. Run the initial setup file.
     ```bash
     chmod +x initial_setup.sh
     ./initial_setup.sh
     ```
 
-2. Generate basic http authentication credentials.
+4. Generate basic http authentication credentials.
     ```bash
     echo $(htpasswd -nb username mystrongpassword) > shared/.htpasswd
     ```
 
-3. Copy `.env.example` to `.env` and modify variables.
-    ```bash
-    cp .env.example .env
-    ```
-
-4. Start up `traefik`.
+5. Start up `traefik`.
     ```bash
     cd services/traefik2
     docker compose up -d

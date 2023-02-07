@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Import env variables
+export $(xargs < .env)
+
 ## Initial configuration
 echo Initial configuration
 
