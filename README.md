@@ -86,9 +86,9 @@ Command | Argument | Explaination
     ```bash
     grep "uri" acme/acme.json
     ```
-7. Edit `docker-compose.yml` and comment out the line below, so it looks like follows:
+7. Edit `docker-compose.yml` and comment out the line with `#`, so it looks like follows:
     ```yml
-    - "traefik.http.routers.traefik-rtr.tls.certresolver=dns-cloudflare"
+    # - "traefik.http.routers.traefik-rtr.tls.certresolver=dns-cloudflare"
     ```
 
 8. Restart `traefik2` compose
