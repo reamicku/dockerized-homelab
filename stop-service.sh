@@ -3,7 +3,7 @@
 INITDIR=$(pwd)
 TARGETDIR=$(pwd)/services/$1
 
-if [ -d "$TARGETDIR"];
+if [ -d "$TARGETDIR" ];
 then
   cd $TARGETDIR
   docker compose down
