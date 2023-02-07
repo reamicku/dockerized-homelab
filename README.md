@@ -31,7 +31,7 @@ This is my homelab. Heavily work in progress.
 
 3. Run the initial setup file.
     ```bash
-    ./initial_setup.sh
+    ./initial-setup.sh
     ```
 
 4. Generate basic http authentication credentials.
@@ -126,3 +126,11 @@ Command | Argument | Explaination
     ```
 
 9. Check that served certificates are valid.
+
+## Notes
+
+After pulling new repo and new applications are added, we need to create symbolic link for environment variable for each new service.
+
+```bash
+./initial-setup.sh
+```
