@@ -31,10 +31,9 @@ This is my homelab. Heavily work in progress.
      echo $(htpasswd -nb username mystrongpassword) > shared/.htpasswd
     ```
 
-5. Start up `traefik`.
+5. Start up `traefik2`.
     ```bash
-    cd services/traefik2
-    docker compose up -d
+    ./start.sh traefik2
     ```
 
 ## Usage
@@ -50,9 +49,9 @@ Or use following scripts to do the same:
 
 Command | Argument | Explaination
 -|-|-
-`./start-service.sh`   | Service name | Starts a given service
-`./stop-service.sh`    | Service name | Stops a given service
-`./restart-service.sh` | Service name | Restarts a given service
+`./start.sh`   | Service name \| `all` | Starts a given service
+`./stop.sh`    | Service name \| `all` | Stops a given service
+`./restart.sh` | Service name \| `all` | Restarts a given service
 
 ## Post setup
 
@@ -73,13 +72,9 @@ Command | Argument | Explaination
     nano acme/acme.json
     ```
 
-4. Edit `docker-compose.yml` and comment out line below with `#`.
+4. Edit `docker-compose.yml` and comment out the line with `#`, so it looks like follows:
     ```yml
-    - "traefik.http.routers.traefik-rtr.tls.certresolver=dns-cloudflare"
-    ```
-    to
-    ```yml
-    # - "traefik.http.routers.traefik-rtr.tls.certresolver=dns-cloudflare"
+    # - --certificatesResolvers.dns-cloudflare.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory 
     ```
 
 5. Start up `traefik2` compose
@@ -91,18 +86,7 @@ Command | Argument | Explaination
     ```bash
     grep "uri" acme/acme.json
     ```
-
-    Example output: 
-
-    ```yml
-          "uri": "https://acme-v02.api.letsencrypt.org/acme/acct/123456789"
-    ```
-7. Edit `docker-compose.yml` and comment out the line below.
-
-    ```yml
-    # - "traefik.http.routers.traefik-rtr.tls.certresolver=dns-cloudflare"
-    ```
-    to
+7. Edit `docker-compose.yml` and comment out the line below, so it looks like follows:
     ```yml
     - "traefik.http.routers.traefik-rtr.tls.certresolver=dns-cloudflare"
     ```
