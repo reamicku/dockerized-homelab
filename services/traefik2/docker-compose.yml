@@ -55,8 +55,6 @@ services:
     <<: *common-keys-core # See EXTENSION FIELDS at the top
     container_name: traefik
     image: traefik:2.9.6
-    env_file:
-      - ../../.env
     command: # CLI arguments
       - --global.checkNewVersion=true
       - --global.sendAnonymousUsage=true
