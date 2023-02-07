@@ -45,6 +45,23 @@ This is my homelab. Heavily work in progress.
     docker compose up -d
     ```
 
+## Usage
+
+Use following commands to control services:
+
+Command | Explaination
+-|-
+`docker compose --env-file ../../.env up -d` | Starts a given service
+`docker compose --env-file ../../.env down`  | Stops a given service
+
+Or use following scripts to do the same:
+
+Command | Argument | Explaination
+-|-|-
+`./start-service.sh`   | Service name | Starts a given service
+`./stop-service.sh`    | Service name | Stops a given service
+`./restart-service.sh` | Service name | Restarts a given service
+
 ## Post setup
 
 ---
