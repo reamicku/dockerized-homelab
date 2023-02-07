@@ -50,6 +50,7 @@ x-common-keys-media: &common-keys-media
 ############################# FRONTENDS
 
 # Traefik 2 - Reverse Proxy
+services:
   traefik:
     <<: *common-keys-core # See EXTENSION FIELDS at the top
     container_name: traefik
