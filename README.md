@@ -26,7 +26,7 @@ This is my homelab. Heavily work in progress.
 
 2. Change permissions for `.env` file
     ```bash
-    chown 600 .env
+    chmod 600 .env
     ```
 
 3. Run the initial setup file.
