@@ -1,23 +1,15 @@
 # Homelab
 
----
-
 ## Introduction
-
----
 
 This is my homelab. Heavily work in progress.
 
 ## Requirements
 
----
-
 - Docker
 - User has rootless access to docker
 
 ## Setup
-
----
 
 1. Copy `.env.example` to `.env` and modify variables.
     ```bash
@@ -64,11 +56,7 @@ Command | Argument | Explaination
 
 ## Post setup
 
----
-
 ### Move to letsencrypt production certificates
-
----
 
 1. Change working directory to `services/traefik2`.
     ```bash
