@@ -36,7 +36,7 @@ This is my homelab. Heavily work in progress.
 
 4. Generate basic http authentication credentials.
     ```bash
-    echo $(htpasswd -nb username mystrongpassword) > shared/.htpasswd
+     echo $(htpasswd -nb username mystrongpassword) > shared/.htpasswd
     ```
 
 5. Start up `traefik`.
