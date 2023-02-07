@@ -31,7 +31,6 @@ This is my homelab. Heavily work in progress.
 
 3. Run the initial setup file.
     ```bash
-    chmod +x initial_setup.sh
     ./initial_setup.sh
     ```
 
