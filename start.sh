@@ -3,11 +3,13 @@
 INITDIR=$(pwd)
 TARGETDIR=$(pwd)/services/$1
 
-if [ "$1" = "all" ];
-then
-  for DIR in $(pwd)/services/*; do cd $DIR; docker compose up -d; cd $INITDIR; done
-elif [ -d "$TARGETDIR" ];
-then
+if [ "$1" = "all" ]; then
+  for DIR in $(pwd)/services/*; do
+    cd $DIR
+    docker compose up -d
+    cd $INITDIR
+  done
+elif [ -d "$TARGETDIR" ]; then
   cd $TARGETDIR
   docker compose up -d
   cd $INITDIR
