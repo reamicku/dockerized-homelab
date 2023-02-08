@@ -119,7 +119,7 @@ services:
     environment:
       - TZ=$TZ
       - CF_API_EMAIL=$CLOUDFLARE_EMAIL
-      - CF_API_KEY=$CLOUDFLARE_API_KEY
+      - CF_API_TOKEN=$CLOUDFLARE_API_TOKEN
       - DOMAINNAME_CLOUD_SERVER # Passing the domain name to the traefik container to be able to use the variable in rules. 
     labels:
       - "traefik.enable=true"
