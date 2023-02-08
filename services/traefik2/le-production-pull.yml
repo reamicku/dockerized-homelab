@@ -69,7 +69,7 @@ services:
       # - --serversTransport.insecureSkipVerify=true
       - --log=true
       - --log.filePath=/logs/traefik.log
-      - --log.level=INFO # (Default: error) DEBUG, INFO, WARN, ERROR, FATAL, PANIC
+      - --log.level=DEBUG # (Default: error) DEBUG, INFO, WARN, ERROR, FATAL, PANIC
       - --accessLog=true
       - --accessLog.filePath=/logs/access.log
       - --accessLog.bufferingSize=100 # Configuring a buffer of 100 lines
@@ -132,7 +132,7 @@ services:
       - "traefik.http.routers.traefik-rtr.entrypoints=https"
       - "traefik.http.routers.traefik-rtr.rule=Host(`traefik.$DOMAINNAME_CLOUD_SERVER`)"
       - "traefik.http.routers.traefik-rtr.tls=true" # Some people had 404s without this
-      # - "traefik.http.routers.traefik-rtr.tls.certresolver=dns-cloudflare" # Comment out this line after first run of traefik to force the use of wildcard certs
+      - "traefik.http.routers.traefik-rtr.tls.certresolver=dns-cloudflare" # Comment out this line after first run of traefik to force the use of wildcard certs
       - "traefik.http.routers.traefik-rtr.tls.domains[0].main=$DOMAINNAME_CLOUD_SERVER"
       - "traefik.http.routers.traefik-rtr.tls.domains[0].sans=*.$DOMAINNAME_CLOUD_SERVER"
       # - "traefik.http.routers.traefik-rtr.tls.domains[1].main=$DOMAINNAME2" # Pulls main cert for second domain
