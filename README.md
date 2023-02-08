@@ -43,8 +43,11 @@ This is my homelab. Heavily work in progress.
 
 6. Confirm that LetsEncrypt staging certificates have been pulled.
     ```bash
-    grep "uri" acme/acme.json
-    grep "main" acme/acme.json
+    grep -e "uri" -e "main" acme/acme.json 
+    ```
+    You can watch for them via:
+    ```bash
+    watch grep -e "uri" -e "main" acme/acme.json 
     ```
     Browse to https://traefik.domain.tld and check the served certificate.
 
@@ -59,6 +62,10 @@ This is my homelab. Heavily work in progress.
     ```bash
     > acme/acme.json
     ```
+    Ensure that there is no content:
+    ```bash
+    cat acme/acme.json
+    ```
 
 9. Start up temporary compose `le-production-pull.yml`.
     After executing the command, LetsEncrypt *production certificates* will start to be pulled.
@@ -69,8 +76,11 @@ This is my homelab. Heavily work in progress.
 
 10. Confirm that letsencrypt production certificates have been pulled.
     ```bash
-    grep "uri" acme/acme.json
-    grep "main" acme/acme.json
+    grep -e "uri" -e "main" acme/acme.json 
+    ```
+    You can watch for them via:
+    ```bash
+    watch grep -e "uri" -e "main" acme/acme.json 
     ```
     If certificates are present, then continue with next step.
 
