@@ -131,6 +131,7 @@ Use following scripts manage services:
 
 | Command     | Arguments             | Description                             |
 | ----------- | --------------------- | --------------------------------------- |
+| `./status`  | -                     | List active services                    |
 | `./list`    | -                     | List available services                 |
 | `./restart` | Service name \| `all` | Restarts a given service / all services |
 | `./start`   | Service name \| `all` | Starts a given service / all services   |
