@@ -24,12 +24,12 @@ This is my homelab. Heavily work in progress.
 2. Run the initial setup file.
 
    ```bash
-   ./initial-setup.sh
+   ./init.sh
    ```
 
 3. Generate basic http authentication credentials.
    
-   Modify `username` and `mystrongpassword`.
+   Modify `username` and `mystrongpassword` to your liking.
 
    ```bash
     echo $(htpasswd -nb username mystrongpassword) > shared/.htpasswd
@@ -150,5 +150,5 @@ Or use following scripts to do the same:
 After pulling new repo and new applications are added, we need to create symbolic link for environment variable for each new service. Use the script below to set this up.
 
 ```bash
-./initial-setup.sh
+./init.sh
 ```

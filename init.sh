@@ -6,25 +6,28 @@ export $(grep -v '^#' .env | xargs)
 ## Initial configuration
 echo Initial configuration
 
-echo - Create directories
+echo - Create shared directory
 mkdir -p $DOCKERDIR/shared
+echo - Create appdata directory
+mkdir -p $DOCKERDIR/appdata
 
 echo - Create symbolic links for '.env'
 for DIR in $(pwd)/services/*; do ln -s $(pwd)/.env $DIR/.env; done
 
 ## Traefik2
-echo Traefik
+echo Traefik2 proxy
 TRAEFIKDIR=$DOCKERDIR/services/traefik2
 
-echo - Create directories
+echo - Create acme directory
 mkdir -p $TRAEFIKDIR/acme
-mkdir -p $TRAEFIKDIR/rules
+echo - Create logs directory
 mkdir -p $TRAEFIKDIR/logs
 
-echo - Create file 'acme.json' and set permissions to 600
+echo - Create acme.json file and set permissions to 600
 touch $TRAEFIKDIR/acme/acme.json
 chmod 600 $TRAEFIKDIR/acme/acme.json
 
-echo - Create files 'access.log' and 'traefik.log'
+echo - Create access.log
 touch $TRAEFIKDIR/logs/access.log
+echo - Create traefik.log
 touch $TRAEFIKDIR/logs/traefik.log
