@@ -1,0 +1,71 @@
+version: "3.9"
+
+### Extension fields
+# Helps eliminate repetition of sections
+# More Info on how to use this: https://github.com/htpcBeginner/docker-traefik/pull/228
+
+# Common environment values
+x-environment: &default-tz-puid-pgid
+  TZ: $TZ
+  PUID: $PUID
+  PGID: $PGID
+
+# Keys common to some of the core services that we always to automatically restart on failure
+x-common-keys-core: &common-keys-core
+  networks:
+    - t2_proxy
+  security_opt:
+    - no-new-privileges:true
+  restart: always
+
+# Keys common to some of the dependent services/apps
+x-common-keys-apps: &common-keys-apps
+  networks:
+    - t2_proxy
+  security_opt:
+    - no-new-privileges:true
+  restart: unless-stopped
+
+# Keys common to some of the services in media-services.txt
+x-common-keys-media: &common-keys-media
+  networks:
+    - t2_proxy
+  security_opt:
+    - no-new-privileges:true
+  restart: "no"
+
+# Define traefik2 external network for proxy purposes
+networks:
+  t2_proxy:
+    external: true
+
+### Service
+### Portainer - WebUI for Containers
+services:
+  portainer:
+    <<: *common-keys-core # See EXTENSION FIELDS at the top
+    container_name: portainer
+    image: portainer/portainer-ce:latest
+    command: -H unix:///var/run/docker.sock # Use Docker Socket Proxy and comment this line out, for improved security.
+    # command: -H tcp://socket-proxy:2375 # Use this instead, if you have Socket Proxy enabled.
+    networks:
+      - t2_proxy
+    # ports: # Commented out because we are going to use Traefik to access portainer WebUI.
+    #  - "$PORTAINER_PORT:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro # Use Docker Socket Proxy and comment this line out, for improved security.
+      - $DOCKERDIR/appdata/portainer/data:/data # Change to local directory if you want to save/transfer config locally.
+    environment:
+      - TZ=$TZ
+    labels:
+      - "traefik.enable=true"
+      ## HTTP Routers
+      - "traefik.http.routers.portainer-rtr.entrypoints=https"
+      - "traefik.http.routers.portainer-rtr.rule=Host(`portainer.$DOMAINNAME_CLOUD_SERVER`)"
+      - "traefik.http.routers.portainer-rtr.tls=true"
+      ## Middlewares
+      # - "traefik.http.routers.portainer-rtr.middlewares=chain-basic-auth@file"
+      - "traefik.http.routers.portainer-rtr.middlewares=chain-no-auth@file"
+      ## HTTP Services
+      - "traefik.http.routers.portainer-rtr.service=portainer-svc"
+      - "traefik.http.services.portainer-svc.loadbalancer.server.port=9000"
