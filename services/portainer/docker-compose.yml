@@ -44,7 +44,7 @@ services:
     command: -H unix:///var/run/docker.sock # Use Docker Socket Proxy and comment this line out, for improved security.
     # command: -H tcp://socket-proxy:2375 # Use this instead, if you have Socket Proxy enabled.
     networks:
-      - npm_proxy
+      - t2_proxy
     # ports: # Commented out because we are going to use Traefik to access portainer WebUI.
     #  - "$PORTAINER_PORT:9000"
     volumes:
