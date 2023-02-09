@@ -13,7 +13,7 @@ This is my homelab. Heavily work in progress.
 ## Setup
 
 1. Create environment file.
-   
+
    Modify values in `.env` file.
 
    ```bash
@@ -21,35 +21,35 @@ This is my homelab. Heavily work in progress.
    chmod 600 .env
    ```
 
-2. Run the initial setup file.
+1. Run the initial setup file.
 
    ```bash
    ./init.sh
    ```
 
-3. Generate basic http authentication credentials.
-   
+1. Generate basic http authentication credentials.
+
    Modify `username` and `mystrongpassword` to your liking.
 
    ```bash
     echo $(htpasswd -nb username mystrongpassword) > shared/.htpasswd
    ```
 
-4. Change directory to `services/traefik2`.
+1. Change directory to `services/traefik2`.
 
    ```bash
    cd services/traefik2
    ```
 
-5. Start up temporary compose `le-staging.yml`.
-   
+1. Start up temporary compose `le-staging.yml`.
+
    After executing the command, LetsEncrypt staging certificates will start to be pulled.
 
    ```bash
    docker compose -f le-staging.yml up -d
    ```
 
-6. Confirm that LetsEncrypt staging certificates have been pulled.
+1. Confirm that LetsEncrypt staging certificates have been pulled.
 
    ```bash
    grep -e "uri" -e "main" acme/acme.json
@@ -64,14 +64,14 @@ This is my homelab. Heavily work in progress.
    Browse to https://traefik.domain.tld and check the served certificate.
 
    If certificates are present, then continue with next step.
-   
+
    If certificates are not present, then check for errors in `logs/traefik.log` file.
 
-7. Shutdown temporary `le-staging.yml` compose.
+1. Shutdown temporary `le-staging.yml` compose.
    ```bash
    docker compose down
    ```
-8. Remove all content from `acme.json` file.
+1. Remove all content from `acme.json` file.
 
    ```bash
    > acme/acme.json
@@ -83,72 +83,62 @@ This is my homelab. Heavily work in progress.
    cat acme/acme.json
    ```
 
-9. Start up temporary compose `le-production-pull.yml`.
-   
+1. Start up temporary compose `le-production-pull.yml`.
+
    After executing the command, LetsEncrypt **production certificates** will start to be pulled.
-   
+
    Please use this only when you are certain that traefik has pulled staging certificates in the previous steps.
 
    ```bash
    docker compose -f le-production-pull.yml up -d
    ```
 
-10. Confirm that letsencrypt production certificates have been pulled.
+1. Confirm that letsencrypt production certificates have been pulled.
 
-    ```bash
-    grep -e "uri" -e "main" acme/acme.json
-    ```
+   ```bash
+   grep -e "uri" -e "main" acme/acme.json
+   ```
 
-    You can watch for them via:
+   You can watch for them via:
 
-    ```bash
-    watch grep -e "uri" -e "main" acme/acme.json
-    ```
+   ```bash
+   watch grep -e "uri" -e "main" acme/acme.json
+   ```
 
-    If certificates are present, then continue with next step.
+   If certificates are present, then continue with next step.
 
-11. Shutdown temporary `le-production-pull.yml` compose.
+1. Shutdown temporary `le-production-pull.yml` compose.
 
-    ```bash
-    docker compose down
-    ```
+   ```bash
+   docker compose down
+   ```
 
-12. Start the default production compose file `docker-compose.yml`.
+1. Change directory back to the repository's root directory.
 
-    ```bash
-    docker compose up -d
-    ```
+   ```bash
+   cd ../..
+   ```
 
-    You can also use the convenience scripts in the root directory of this repository.
+1. Start the production `traefik2` proxy.
 
-13. Change directory back to the repository's root directory.
-    ```bash
-    cd ../..
-    ```
+   ```bash
+   ./start traefik2
+   ```
 
 ## Usage
 
-Use following commands to control services:
+Use following scripts manage services:
 
-| Command                | Explaination           |
-| ---------------------- | ---------------------- |
-| `docker compose up -d` | Starts a given service |
-| `docker compose down`  | Stops a given service  |
+| Command     | Arguments             | Description                             |
+| ----------- | --------------------- | --------------------------------------- |
+| `./list`    | -                     | List available services                 |
+| `./restart` | Service name \| `all` | Restarts a given service / all services |
+| `./start`   | Service name \| `all` | Starts a given service / all services   |
+| `./stop`    | Service name \| `all` | Stops a given service / all services    |
 
-Or use following scripts to do the same:
+## Applications
 
-| Command        | Argument              | Explaination             |
-| -------------- | --------------------- | ------------------------ |
-| `./start.sh`   | Service name \| `all` | Starts a given service   |
-| `./stop.sh`    | Service name \| `all` | Stops a given service    |
-| `./restart.sh` | Service name \| `all` | Restarts a given service |
-
-## Troubleshooting
-
-### Q: New update brings new applications. What are the steps to ensure that they will work correctly?
-
-After pulling new repo and new applications are added, we need to create symbolic link for environment variable for each new service. Use the script below to set this up.
-
-```bash
-./init.sh
-```
+| App       | Description                    | Service name | URL                    |
+| --------- | ------------------------------ | ------------ | ---------------------- |
+| Traefik 2 | Proxy for all services.        | `traefik2`   | `dashboard.domain.tld` |
+| Portainer | Container management dashboard | `portainer`  | `portainer.domain.tld` |
