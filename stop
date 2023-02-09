@@ -13,12 +13,12 @@ if [ "$1" = "all" ]; then
       docker compose down
       cd $INITDIR
     fi
-    # Stop the proxy as last step
-    echo Stop $traefik2 proxy
-    cd services/$PROXYNAME
-    docker compose down
-    cd $INITDIR
   done
+  # Stop the proxy as last step
+  echo Stop $traefik2 proxy
+  cd services/$PROXYNAME
+  docker compose down
+  cd $INITDIR
 # Specified service does not exist
 elif [ -d "$TARGETDIR" ]; then
   cd $TARGETDIR
