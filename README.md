@@ -13,6 +13,7 @@ This is my homelab. Heavily work in progress.
 ## Setup
 
 1. Create environment file.
+   
    Modify values in `.env` file.
 
    ```bash
@@ -27,6 +28,7 @@ This is my homelab. Heavily work in progress.
    ```
 
 3. Generate basic http authentication credentials.
+   
    Modify `username` and `mystrongpassword`.
 
    ```bash
@@ -40,6 +42,7 @@ This is my homelab. Heavily work in progress.
    ```
 
 5. Start up temporary compose `le-staging.yml`.
+   
    After executing the command, LetsEncrypt staging certificates will start to be pulled.
 
    ```bash
@@ -61,6 +64,7 @@ This is my homelab. Heavily work in progress.
    Browse to https://traefik.domain.tld and check the served certificate.
 
    If certificates are present, then continue with next step.
+   
    If certificates are not present, then check for errors in `logs/traefik.log` file.
 
 7. Shutdown temporary `le-staging.yml` compose.
@@ -80,7 +84,9 @@ This is my homelab. Heavily work in progress.
    ```
 
 9. Start up temporary compose `le-production-pull.yml`.
-   After executing the command, LetsEncrypt _production certificates_ will start to be pulled.
+   
+   After executing the command, LetsEncrypt **production certificates** will start to be pulled.
+   
    Please use this only when you are certain that traefik has pulled staging certificates in the previous steps.
 
    ```bash
