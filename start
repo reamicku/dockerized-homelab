@@ -4,6 +4,9 @@ PROXYNAME=traefik2
 INITDIR=$(pwd)
 TARGETDIR=$(pwd)/services/$1
 
+# Make sure every service has access to .env file
+for DIR in $(pwd)/services/*; do ln -s $(pwd)/.env $DIR/.env > /dev/null; done
+
 if [ "$1" = "all" ]; then
   # Start up the proxy first
   echo Start $traefik2 proxy
