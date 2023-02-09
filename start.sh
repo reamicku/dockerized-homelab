@@ -6,12 +6,14 @@ TARGETDIR=$(pwd)/services/$1
 
 if [ "$1" = "all" ]; then
   # Start up the proxy first
+  echo Start $traefik2 proxy
   cd services/$PROXYNAME
   docker compose up -d
   cd $INITDIR
   # Then enable rest of the services
   for DIR in $(pwd)/services/*; do
     if [ "$(basename $DIR)" != "$PROXYNAME" ]; then
+      echo Start $(basename $DIR) service
       cd $DIR
       docker compose up -d
       cd $INITDIR
