@@ -5,7 +5,7 @@ INITDIR=$(pwd)
 TARGETDIR=$(pwd)/services/$1
 
 # Make sure every service has access to .env file
-for DIR in $(pwd)/services/*; do ln -s $(pwd)/.env $DIR/.env > /dev/null; done
+for DIR in $(pwd)/services/*; do ln -s $(pwd)/.env $DIR/.env 2> /dev/null; done
 
 if [ "$1" = "all" ]; then
   # Start up the proxy first
