@@ -34,6 +34,11 @@ x-common-keys-media: &common-keys-media
     - no-new-privileges:true
   restart: "no"
 
+# Define traefik2 external network for proxy purposes
+networks:
+  t2_proxy:
+    external: true
+
 ### Service
 ### Portainer - WebUI for Containers
 services:
