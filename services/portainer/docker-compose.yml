@@ -64,8 +64,8 @@ services:
       - "traefik.http.routers.portainer-rtr.rule=Host(`portainer.$DOMAINNAME_CLOUD_SERVER`)"
       - "traefik.http.routers.portainer-rtr.tls=true"
       ## Middlewares
-      - "traefik.http.routers.portainer-rtr.middlewares=chain-basic-auth@file"
-      # - "traefik.http.routers.portainer-rtr.middlewares=chain-no-auth@file"
+      # - "traefik.http.routers.portainer-rtr.middlewares=chain-basic-auth@file"
+      - "traefik.http.routers.portainer-rtr.middlewares=chain-no-auth@file"
       ## HTTP Services
       - "traefik.http.routers.portainer-rtr.service=portainer-svc"
       - "traefik.http.services.portainer-svc.loadbalancer.server.port=9000"
