@@ -1,5 +1,16 @@
 # Homelab
 
+- [Homelab](#homelab)
+  - [Introduction](#introduction)
+  - [Requirements](#requirements)
+  - [Initial setup](#initial-setup)
+  - [Secrets](#secrets)
+  - [Security](#security)
+  - [Usage](#usage)
+- [Applications](#applications)
+  - [Nextcloud](#nextcloud)
+    - [Setup](#setup)
+
 ## Introduction
 
 This is my homelab. Heavily work in progress.
@@ -10,7 +21,7 @@ This is my homelab. Heavily work in progress.
 - Docker
 - User has rootless access to docker
 
-## Setup
+## Initial setup
 
 1. Create environment file.
 
@@ -161,26 +172,32 @@ setfacl -d -m g::r -m o::--- .
 
 Use following scripts manage services:
 
-| Command     | Arguments             | Description                             |
-| ----------- | --------------------- | --------------------------------------- |
-| `./status`  | -                     | List active services                    |
-| `./list`    | -                     | List available services                 |
-| `./restart` | Service name \| `all` | Restarts a given service / all services |
-| `./start`   | Service name \| `all` | Starts a given service / all services   |
-| `./stop`    | Service name \| `all` | Stops a given service / all services    |
+| Command     | Arguments             | Description              |
+| ----------- | --------------------- | ------------------------ |
+| `./status`  | -                     | List active services     |
+| `./list`    | -                     | List available services  |
+| `./restart` | Service name \| `all` | Restarts a given service |
+| `./start`   | Service name \| `all` | Starts a given service   |
+| `./stop`    | Service name \| `all` | Stops a given service    |
 
-## List of applications
+# Applications
 
 | App       | Description                    | Service name | URL                    |
 | --------- | ------------------------------ | ------------ | ---------------------- |
 | Traefik 2 | Proxy for all services.        | `traefik2`   | `traefik.domain.tld`   |
 | Portainer | Container management dashboard | `portainer`  | `portainer.domain.tld` |
+| Nextcloud | Online collaboration platform  | `nextcloud`  | `next.domain.tld`      |
 
-## Application specific setup
 
-### Nextcloud
+If you plan to use any of the applications listed below, you need to run these scripts below.
 
-Generate secrets
+These commands might get integrated into the initialization script in the future.
+
+## Nextcloud
+
+### Setup
+
+Generate secrets for nextcloud's database connection.
 
 ```bash
 mkdir -p secrets/nextcloud
