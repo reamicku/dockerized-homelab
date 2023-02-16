@@ -24,7 +24,7 @@ This is my homelab. Heavily work in progress.
 1. Run the initial setup file.
 
    ```bash
-   ./init.sh
+   ./init
    ```
 
 1. Generate basic http authentication credentials.
