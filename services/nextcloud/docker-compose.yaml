@@ -71,6 +71,9 @@ services:
       - nextcloud
     # ports: # Commented out because we are going to use Traefik
     #   - 80:80
+    # We add our secrets here
+    secrets:
+      - db_password
     # Persistent volumes with bind mounts to easily move/backup data
     volumes:
       - $DOCKERDIR/appdata/nextcloud/nextcloud:/var/www/html
@@ -89,7 +92,6 @@ services:
       MYSQL_DATABASE: nextcloud
       MYSQL_USER: nextcloud
       MYSQL_PASSWORD: /run/secrets/db_password
-
     labels:
       - "traefik.enable=true"
       ## HTTP Routers
