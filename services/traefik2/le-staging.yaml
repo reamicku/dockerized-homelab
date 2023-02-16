@@ -112,8 +112,8 @@ services:
       #   mode: host
     volumes:
       - $DOCKERDIR/services/traefik2/rules:/rules # file provider directory
-      - $DOCKERDIR/services/traefik2/acme/acme.json:/acme.json # cert location - you must create this empty file and change permissions to 600
-      - $DOCKERDIR/services/traefik2/logs:/logs # for fail2ban or crowdsec
+      - $DOCKERDIR/appdata/traefik2/acme/acme.json:/acme.json # cert location - you must create this empty file and change permissions to 600
+      - $DOCKERDIR/appdata/traefik2/logs:/logs # for fail2ban or crowdsec
       - /var/run/docker.sock:/var/run/docker.sock:ro # If you use Docker Socket Proxy, comment this line out
       - $DOCKERDIR/shared:/shared
     environment:
