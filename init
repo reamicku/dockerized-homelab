@@ -11,7 +11,7 @@ mkdir -p $DOCKERDIR/shared
 echo - Create appdata directory
 mkdir -p $DOCKERDIR/appdata
 echo - Create secret directory
-mkdir -p $DOCKERDIR/secret
+mkdir -p $DOCKERDIR/secrets
 
 
 echo - Create symbolic links for '.env'
