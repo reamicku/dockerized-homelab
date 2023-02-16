@@ -74,9 +74,11 @@ This is my homelab. Heavily work in progress.
    If certificates are not present, then check for errors in `logs/traefik.log` file.
 
 1. Shutdown temporary `le-staging.yaml` compose.
+
    ```bash
    docker compose down
    ```
+
 1. Remove all content from `acme.json` file.
 
    ```bash
@@ -113,7 +115,7 @@ This is my homelab. Heavily work in progress.
 
    If certificates are present, then continue with next step.
 
-1.  Shutdown temporary `le-production-pull.yaml` compose.
+1. Shutdown temporary `le-production-pull.yaml` compose.
 
    ```bash
    docker compose down
@@ -133,16 +135,21 @@ This is my homelab. Heavily work in progress.
 
 ## Secrets
 
-Setup basic database secrets:
+Setup basic database secrets.
+
+Make sure to execute the commands separately with at least 2 seconds between them, because the secrets are generated based on current time.
 
 ```bash
-openssl rand -hex 32 > secrets/db_password
-openssl rand -hex 32 > secrets/db_root_password
+openssl rand -hex 32 | awk 'BEGIN{ORS="";} {print}' > secrets/db_password
+```
+
+```bash
+openssl rand -hex 32 | awk 'BEGIN{ORS="";} {print}' > secrets/db_root_password
 ```
 
 ## Security
 
-To improve security, we will make so the files in this directory are only accessible to the  group. This makes the files not globally visible.
+To improve security, we will make so the files in this directory are only accessible to the group. This makes the files not globally visible.
 
 Execute in the root directory of this project.
 
@@ -162,9 +169,21 @@ Use following scripts manage services:
 | `./start`   | Service name \| `all` | Starts a given service / all services   |
 | `./stop`    | Service name \| `all` | Stops a given service / all services    |
 
-## Applications
+## List of applications
 
 | App       | Description                    | Service name | URL                    |
 | --------- | ------------------------------ | ------------ | ---------------------- |
 | Traefik 2 | Proxy for all services.        | `traefik2`   | `traefik.domain.tld`   |
 | Portainer | Container management dashboard | `portainer`  | `portainer.domain.tld` |
+
+## Application specific setup
+
+### Nextcloud
+
+Generate secrets
+
+```bash
+mkdir -p secrets/nextcloud
+echo -n nextcloud > secrets/nextcloud/db_name
+echo -n nextcloud > secrets/nextcloud/db_user
+```

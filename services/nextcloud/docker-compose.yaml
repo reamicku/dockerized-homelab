@@ -1,0 +1,168 @@
+version: "3.9"
+
+### Extension fields
+# Helps eliminate repetition of sections
+# More Info on how to use this: https://github.com/htpcBeginner/docker-traefik/pull/228
+
+# Common environment values
+x-environment: &default-tz-puid-pgid
+  TZ: $TZ
+  PUID: $PUID
+  PGID: $PGID
+
+# Keys common to some of the core services that we always to automatically restart on failure
+x-common-keys-core: &common-keys-core
+  networks:
+    - t2_proxy
+  security_opt:
+    - no-new-privileges:true
+  restart: always
+
+# Keys common to some of the dependent services/apps
+x-common-keys-apps: &common-keys-apps
+  networks:
+    - t2_proxy
+  security_opt:
+    - no-new-privileges:true
+  restart: unless-stopped
+
+# Keys common to some of the services in media-services.txt
+x-common-keys-media: &common-keys-media
+  networks:
+    - t2_proxy
+  security_opt:
+    - no-new-privileges:true
+  restart: "no"
+
+# Define traefik2 external network for proxy purposes
+networks:
+  default:
+    driver: bridge
+  t2_proxy:
+    external: true
+
+# Must use a high level declaration of our secrets (usage of .env file)
+secrets:
+  mysql_database:
+    file: $SECRETDIR/nextcloud/db_name
+  mysql_user:
+    file: $SECRETDIR/nextcloud/db_user
+  mysql_password:
+    file: $SECRETDIR/db_password
+  mysql_root_password:
+    file: $SECRETDIR/db_root_password
+
+### Service
+# Nextcloud Docker Application
+services:
+  nextcloud:
+    <<: *common-keys-apps # See EXTENSION FIELDS at the top
+    # Use the official nextcloud image (v21.0.0 at time of writing this)
+    image: nextcloud
+    # Set to allow easy Docker DNS name resolution - not strictly necessary
+    container_name: nextcloud
+    # Same as above
+    hostname: nextcloud
+    # Container will restart unless we specifically stop it
+    restart: unless-stopped
+    # Dependent containers
+    depends_on:
+      - nc-db
+      - nc-redis
+    # Defines how we want our container to connect outside
+    networks:
+      # Use an internal network for the nextcloud services
+      - default
+      # Connect to proxy network to allow traffic inside container
+      - t2_proxy
+    # ports: # Commented out because we are going to use Traefik
+    #   - 80:80
+    # We add our secrets here
+    secrets:
+      - mysql_database
+      - mysql_user
+      - mysql_password
+    # Persistent volumes with bind mounts to easily move/backup data
+    volumes:
+      - $DOCKERDIR/appdata/nextcloud/nextcloud:/var/www/html
+      - $DATA/nextcloud/nextcloud:/var/www/html/data
+    # Environment (internal to the container) variables to simplify setup
+    environment:
+      # Redis host name (container_name)
+      REDIS_HOST: nc-redis
+      ### Add your domain name - Specifying trusted domain for security
+      NEXTCLOUD_TRUSTED_DOMAIN: $NEXTCLOUD_DOMAIN_PREFIX.$DOMAINNAME_CLOUD_SERVER
+      ### Add local network as a trusted proxy - It's better to set the actual Traefik IP.
+      ###   We will give it the range listed in the accompanying Traefik guide
+      TRUSTED_PROXIES: 192.168.90.0/24
+      # Database
+      MYSQL_HOST: nc-db
+      MYSQL_DATABASE_FILE: /run/secrets/mysql_database
+      MYSQL_USER_FILE: /run/secrets/mysql_user
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
+    labels:
+      - "traefik.enable=true"
+      ## HTTP Routers
+      - "traefik.http.routers.nextcloud-rtr.entrypoints=https"
+      - "traefik.http.routers.nextcloud-rtr.rule=Host(`$NEXTCLOUD_DOMAIN_PREFIX.$DOMAINNAME_CLOUD_SERVER`)"
+      - "traefik.http.routers.nextcloud-rtr.tls=true"
+      ## Middlewares
+      # - "traefik.http.routers.nextcloud-rtr.middlewares=chain-basic-auth@file"
+      - "traefik.http.routers.nextcloud-rtr.middlewares=chain-nextcloud@file"
+      ## HTTP Services
+      - "traefik.http.routers.nextcloud-rtr.service=nextcloud-svc"
+      - "traefik.http.services.nextcloud-svc.loadbalancer.server.port=80"
+
+  # Nextcloud Database - Using MariaDB, but can also use MySQL or PostgreSQL
+  nc-db:
+    # MariaDB 10.5 again not using latest to prevent future breakage
+    image: mariadb:10.9.5
+    # Set to allow easy Docker DNS name resolution - not strictly necessary
+    container_name: nc-db
+    # Same as above
+    hostname: nc-db
+    # Container will restart unless we specifically stop it
+    restart: unless-stopped
+    # Recommended database settings as listed in:
+    # https://docs.nextcloud.com/server/21/admin_manual/configuration_database/linux_database_configuration.html
+    command: --transaction-isolation=READ-COMMITTED --log-bin=msqyld-bin --binlog-format=ROW
+    # Defines how we want our container to connect outside
+    networks:
+      # ONLY using an internal network and not exposing to the internet
+      - default
+    # Persistent volumes with bind mounts to easily move/backup data
+    volumes:
+      # I like to use the /opt folder to hold my Docker bind mounted volumes
+      - $DOCKERDIR/appdata/nextcloud/nc-db:/var/lib/mysql
+    # We add our secrets here
+    secrets:
+      - mysql_user
+      - mysql_database
+      - mysql_root_password
+      - mysql_password
+    # Environment (internal to the container) variables to simplify setup (notice the secrets used below)
+    environment:
+      MYSQL_USER_FILE: /run/secrets/mysql_user
+      MYSQL_DATABASE_FILE: /run/secrets/mysql_database
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
+
+  # Nextcloud (in memory) Redis Cache - speed up lookup transactions
+  # Speeds up Nextcloud by reducing the time spent "looking" for things
+  nc-redis:
+    # Official REDIS 7.0.8 image based upon alpine Linux (to keep it lightweight)
+    image: redis:7.0.8-alpine
+    # Set to allow easy Docker DNS name resolution - not strictly necessary
+    container_name: nc-redis
+    # Same as above
+    hostname: nc-redis
+    # Container will restart unless we specifically stop it
+    restart: unless-stopped
+    # Defines how we want our container to connect outside
+    networks:
+      # ONLY using an internal network and not exposing to the internet
+      - default
+    # Persistent volumes with bind mounts to easily move/backup data
+    volumes:
+      # I like to use the /opt folder to hold my Docker bind mounted volumes
+      - $DOCKERDIR/appdata/nextcloud/nc-redis:/data
