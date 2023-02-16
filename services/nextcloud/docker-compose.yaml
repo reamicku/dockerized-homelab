@@ -69,6 +69,8 @@ services:
     networks:
       # Use an internal network for the nextcloud services
       - default
+      # Connect to proxy network to allow traffic inside container
+      - t2_proxy
     # ports: # Commented out because we are going to use Traefik
     #   - 80:80
     # We add our secrets here
