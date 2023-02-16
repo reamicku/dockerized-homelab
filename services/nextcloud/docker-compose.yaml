@@ -61,6 +61,10 @@ services:
     hostname: nextcloud
     # Container will restart unless we specifically stop it
     restart: unless-stopped
+    # Dependent containers
+    depends_on:
+      - nc-db
+      - nc-redis
     # Defines how we want our container to connect outside
     networks:
       # Use an internal network for the nextcloud services
