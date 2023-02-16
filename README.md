@@ -137,8 +137,8 @@ This is my homelab. Heavily work in progress.
 Setup basic database secrets:
 
 ```bash
-openssl rand -hex 32 > secrets/db_password
-openssl rand -hex 32 > secrets/db_root_password
+openssl rand -hex 32 | awk 'BEGIN{ORS="";} {print}' > secrets/db_password
+openssl rand -hex 32 | awk 'BEGIN{ORS="";} {print}' > secrets/db_root_password
 ```
 
 ## Security
