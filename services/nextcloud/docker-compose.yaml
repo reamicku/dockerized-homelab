@@ -36,7 +36,7 @@ x-common-keys-media: &common-keys-media
 
 # Define traefik2 external network for proxy purposes
 networks:
-  nextcloud:
+  default:
     driver: bridge
   t2_proxy:
     external: true
@@ -68,7 +68,7 @@ services:
     # Defines how we want our container to connect outside
     networks:
       # Use an internal network for the nextcloud services
-      - nextcloud
+      - default
     # ports: # Commented out because we are going to use Traefik
     #   - 80:80
     # We add our secrets here
@@ -121,7 +121,7 @@ services:
     # Defines how we want our container to connect outside
     networks:
       # ONLY using an internal network and not exposing to the internet
-      - nextcloud
+      - default
     # Persistent volumes with bind mounts to easily move/backup data
     volumes:
       # I like to use the /opt folder to hold my Docker bind mounted volumes
@@ -151,7 +151,7 @@ services:
     # Defines how we want our container to connect outside
     networks:
       # ONLY using an internal network and not exposing to the internet
-      - nextcloud
+      - default
     # Persistent volumes with bind mounts to easily move/backup data
     volumes:
       # I like to use the /opt folder to hold my Docker bind mounted volumes
