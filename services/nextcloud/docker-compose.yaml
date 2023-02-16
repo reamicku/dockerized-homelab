@@ -78,7 +78,7 @@ services:
       - db_password
     # Persistent volumes with bind mounts to easily move/backup data
     volumes:
-      - $DOCKERDIR/appdata/nextcloud/nextcloud-apache/etc/apache2/mods-available
+      - $DOCKERDIR/appdata/nextcloud/nextcloud-apache:/etc/apache2/mods-available
       - $DOCKERDIR/appdata/nextcloud/nextcloud:/var/www/html
       - $DATA/nextcloud/nextcloud:/var/www/html/data
     # Environment (internal to the container) variables to simplify setup
