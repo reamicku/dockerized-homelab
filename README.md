@@ -131,6 +131,25 @@ This is my homelab. Heavily work in progress.
    ./start traefik2
    ```
 
+## Secrets
+
+Setup basic database secrets:
+
+```bash
+openssl rand -hex 32 > secrets/db_password
+openssl rand -hex 32 > secrets/db_root_password
+```
+
+## Security
+
+To improve security, we will make so the files in this directory are only accessible to the  group. This makes the files not globally visible.
+
+Execute in the root directory of this project.
+
+```bash
+setfacl -d -m g::r -m o::--- .
+```
+
 ## Usage
 
 Use following scripts manage services:
@@ -149,13 +168,3 @@ Use following scripts manage services:
 | --------- | ------------------------------ | ------------ | ---------------------- |
 | Traefik 2 | Proxy for all services.        | `traefik2`   | `traefik.domain.tld`   |
 | Portainer | Container management dashboard | `portainer`  | `portainer.domain.tld` |
-
-## Security improvements
-
-To improve security, we will make so the files in this directory are only accessible to the  group. This makes the files not globally visible.
-
-Execute in the root directory of this project.
-
-```bash
-setfacl -d -m g::r -m o::--- .
-```

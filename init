@@ -10,6 +10,9 @@ echo - Create shared directory
 mkdir -p $DOCKERDIR/shared
 echo - Create appdata directory
 mkdir -p $DOCKERDIR/appdata
+echo - Create secret directory
+mkdir -p $DOCKERDIR/secret
+
 
 echo - Create symbolic links for '.env'
 for DIR in $(pwd)/services/*; do ln -s $(pwd)/.env $DIR/.env > /dev/null; done
