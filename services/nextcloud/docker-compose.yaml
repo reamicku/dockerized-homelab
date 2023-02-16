@@ -70,7 +70,7 @@ services:
     # Persistent volumes with bind mounts to easily move/backup data
     volumes:
       - $DOCKERDIR/appdata/nextcloud/nextcloud:/var/www/html
-      - $DATA/nextcloud/nextcloud:/var/www/html/nextcloud/data
+      - $DATA/nextcloud/nextcloud:/var/www/html/data
     # Environment (internal to the container) variables to simplify setup
     environment:
       # Redis host name (container_name)
@@ -80,6 +80,12 @@ services:
       ### Add local network as a trusted proxy - It's better to set the actual Traefik IP.
       ###   We will give it the range listed in the accompanying Traefik guide
       TRUSTED_PROXIES: 192.168.90.0/24
+      # Database
+      MYSQL_HOST: nc-db
+      MYSQL_DATABASE: nextcloud
+      MYSQL_USER: nextcloud
+      MYSQL_PASSWORD: /run/secrets/db_password
+
     labels:
       - "traefik.enable=true"
       ## HTTP Routers
