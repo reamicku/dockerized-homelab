@@ -147,5 +147,15 @@ Use following scripts manage services:
 
 | App       | Description                    | Service name | URL                    |
 | --------- | ------------------------------ | ------------ | ---------------------- |
-| Traefik 2 | Proxy for all services.        | `traefik2`   | `traefik.domain.tld` |
+| Traefik 2 | Proxy for all services.        | `traefik2`   | `traefik.domain.tld`   |
 | Portainer | Container management dashboard | `portainer`  | `portainer.domain.tld` |
+
+## Security improvements
+
+To improve security, we will make so the files in this directory are only accessible to the  group. This makes the files not globally visible.
+
+Execute in the root directory of this project.
+
+```bash
+setfacl -d -m g::r -m o::--- .
+```
