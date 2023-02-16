@@ -43,8 +43,6 @@ networks:
 
 # Must use a high level declaration of our secrets (usage of .env file)
 secrets:
-  mysql_host:
-    file: $SECRETDIR/nextcloud/db_host
   mysql_database:
     file: $SECRETDIR/nextcloud/db_name
   mysql_user:
@@ -81,7 +79,6 @@ services:
     #   - 80:80
     # We add our secrets here
     secrets:
-      - mysql_host
       - mysql_database
       - mysql_user
       - mysql_password
@@ -99,7 +96,7 @@ services:
       ###   We will give it the range listed in the accompanying Traefik guide
       TRUSTED_PROXIES: 192.168.90.0/24
       # Database
-      MYSQL_HOST_FILE: /run/secrets/mysql_host
+      MYSQL_HOST: nc-db
       MYSQL_DATABASE_FILE: /run/secrets/mysql_database
       MYSQL_USER_FILE: /run/secrets/mysql_user
       MYSQL_PASSWORD_FILE: /run/secrets/mysql_password

@@ -183,7 +183,6 @@ Generate secrets
 
 ```bash
 mkdir -p secrets/nextcloud
-echo -n nc-db > secrets/nextcloud/db_host
 echo -n nextcloud > secrets/nextcloud/db_name
 echo -n nextcloud > secrets/nextcloud/db_user
 ```
