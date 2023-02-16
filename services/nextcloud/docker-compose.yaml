@@ -76,7 +76,7 @@ services:
       # Redis host name (container_name)
       REDIS_HOST: nc-redis
       ### Add your domain name - Specifying trusted domain for security
-      NEXTCLOUD_TRUSTED_DOMAIN: $NEXTCLOUD_DOMAIN_NAME.$DOMAINNAME_CLOUD_SERVER
+      NEXTCLOUD_TRUSTED_DOMAIN: $NEXTCLOUD_DOMAIN_PREFIX.$DOMAINNAME_CLOUD_SERVER
       ### Add local network as a trusted proxy - It's better to set the actual Traefik IP.
       ###   We will give it the range listed in the accompanying Traefik guide
       TRUSTED_PROXIES: 192.168.90.0/24
@@ -84,7 +84,7 @@ services:
       - "traefik.enable=true"
       ## HTTP Routers
       - "traefik.http.routers.nextcloud-rtr.entrypoints=https"
-      - "traefik.http.routers.nextcloud-rtr.rule=Host(`$NEXTCLOUD_DOMAIN_NAME.$DOMAINNAME_CLOUD_SERVER`)"
+      - "traefik.http.routers.nextcloud-rtr.rule=Host(`$NEXTCLOUD_DOMAIN_PREFIX.$DOMAINNAME_CLOUD_SERVER`)"
       - "traefik.http.routers.nextcloud-rtr.tls=true"
       ## Middlewares
       # - "traefik.http.routers.nextcloud-rtr.middlewares=chain-basic-auth@file"
