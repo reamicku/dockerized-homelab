@@ -12,7 +12,8 @@ echo - Create appdata directory
 mkdir -p $DOCKERDIR/appdata
 echo - Create secret directory
 mkdir -p $DOCKERDIR/secrets
-
+echo - Create shared proxy network
+docker network create t2_proxy
 
 echo - Create symbolic links for '.env'
 for DIR in $(pwd)/services/*; do ln -s $(pwd)/.env $DIR/.env > /dev/null; done
