@@ -134,10 +134,15 @@ This is my homelab. Heavily work in progress.
 
 ## Secrets
 
-Setup basic database secrets:
+Setup basic database secrets.
+
+Make sure to execute the commands separately with at least 2 seconds between them, because the secrets are generated based on current time.
 
 ```bash
 openssl rand -hex 32 | awk 'BEGIN{ORS="";} {print}' > secrets/db_password
+```
+
+```bash
 openssl rand -hex 32 | awk 'BEGIN{ORS="";} {print}' > secrets/db_root_password
 ```
 
@@ -163,9 +168,22 @@ Use following scripts manage services:
 | `./start`   | Service name \| `all` | Starts a given service / all services   |
 | `./stop`    | Service name \| `all` | Stops a given service / all services    |
 
-## Applications
+## List of applications
 
 | App       | Description                    | Service name | URL                    |
 | --------- | ------------------------------ | ------------ | ---------------------- |
 | Traefik 2 | Proxy for all services.        | `traefik2`   | `traefik.domain.tld`   |
 | Portainer | Container management dashboard | `portainer`  | `portainer.domain.tld` |
+
+## Application specific setup
+
+### Nextcloud
+
+Generate secrets
+
+```bash
+mkdir -p secrets/nextcloud
+echo -n nc-db > secrets/nextcloud/db_host
+echo -n nextcloud > secrets/nextcloud/db_name
+echo -n nextcloud > secrets/nextcloud/db_user
+```

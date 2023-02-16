@@ -43,9 +43,15 @@ networks:
 
 # Must use a high level declaration of our secrets (usage of .env file)
 secrets:
-  db_password:
+  mysql_host:
+    file: $SECRETDIR/nextcloud/db_host
+  mysql_database:
+    file: $SECRETDIR/nextcloud/db_name
+  mysql_user:
+    file: $SECRETDIR/nextcloud/db_user
+  mysql_password:
     file: $SECRETDIR/db_password
-  db_root_password:
+  mysql_root_password:
     file: $SECRETDIR/db_root_password
 
 ### Service
@@ -75,7 +81,10 @@ services:
     #   - 80:80
     # We add our secrets here
     secrets:
-      - db_password
+      - mysql_host
+      - mysql_database
+      - mysql_user
+      - mysql_password
     # Persistent volumes with bind mounts to easily move/backup data
     volumes:
       - $DOCKERDIR/appdata/nextcloud/nextcloud-apache:/etc/apache2/mods-available
@@ -91,10 +100,10 @@ services:
       ###   We will give it the range listed in the accompanying Traefik guide
       TRUSTED_PROXIES: 192.168.90.0/24
       # Database
-      MYSQL_HOST: nc-db
-      MYSQL_DATABASE: nextcloud
-      MYSQL_USER: nextcloud
-      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+      MYSQL_HOST_FILE: /run/secrets/mysql_host
+      MYSQL_DATABASE_FILE: /run/secrets/mysql_database
+      MYSQL_USER_FILE: /run/secrets/mysql_user
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
     labels:
       - "traefik.enable=true"
       ## HTTP Routers
@@ -131,14 +140,16 @@ services:
       - $DOCKERDIR/appdata/nextcloud/nc-db:/var/lib/mysql
     # We add our secrets here
     secrets:
-      - db_root_password
-      - db_password
+      - mysql_user
+      - mysql_database
+      - mysql_root_password
+      - mysql_password
     # Environment (internal to the container) variables to simplify setup (notice the secrets used below)
     environment:
-      MYSQL_USER: nextcloud
-      MYSQL_DATABASE: nextcloud
-      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
-      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+      MYSQL_USER_FILE: /run/secrets/mysql_user
+      MYSQL_DATABASE_FILE: /run/secrets/mysql_database
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
 
   # Nextcloud (in memory) Redis Cache - speed up lookup transactions
   # Speeds up Nextcloud by reducing the time spent "looking" for things
