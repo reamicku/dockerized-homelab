@@ -207,6 +207,12 @@ Access through `https://portainer.domain.tld`
 
 ### Setup
 
+Start the application:
+
+```bash
+./start portainer
+```
+
 Open browser window and connect to the application via the URL.
 
 Setup a new administrator user.
