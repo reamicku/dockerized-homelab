@@ -41,12 +41,12 @@ This is my homelab. Heavily work in progress.
    cd services/traefik2
    ```
 
-1. Start up temporary compose `le-staging.yml`.
+1. Start up temporary compose `le-staging.yaml`.
 
    After executing the command, LetsEncrypt staging certificates will start to be pulled.
 
    ```bash
-   docker compose -f le-staging.yml up -d
+   docker compose -f le-staging.yaml up -d
    ```
 
 1. Confirm that LetsEncrypt staging certificates have been pulled.
@@ -67,7 +67,7 @@ This is my homelab. Heavily work in progress.
 
    If certificates are not present, then check for errors in `logs/traefik.log` file.
 
-1. Shutdown temporary `le-staging.yml` compose.
+1. Shutdown temporary `le-staging.yaml` compose.
    ```bash
    docker compose down
    ```
@@ -83,14 +83,14 @@ This is my homelab. Heavily work in progress.
    cat acme/acme.json
    ```
 
-1. Start up temporary compose `le-production-pull.yml`.
+1. Start up temporary compose `le-production-pull.yaml`.
 
    After executing the command, LetsEncrypt **production certificates** will start to be pulled.
 
    Please use this only when you are certain that traefik has pulled staging certificates in the previous steps.
 
    ```bash
-   docker compose -f le-production-pull.yml up -d
+   docker compose -f le-production-pull.yaml up -d
    ```
 
 1. Confirm that letsencrypt production certificates have been pulled.
@@ -107,7 +107,7 @@ This is my homelab. Heavily work in progress.
 
    If certificates are present, then continue with next step.
 
-1. Shutdown temporary `le-production-pull.yml` compose.
+1. Shutdown temporary `le-production-pull.yaml` compose.
 
    ```bash
    docker compose down
@@ -141,5 +141,5 @@ Use following scripts manage services:
 
 | App       | Description                    | Service name | URL                    |
 | --------- | ------------------------------ | ------------ | ---------------------- |
-| Traefik 2 | Proxy for all services.        | `traefik2`   | `dashboard.domain.tld` |
+| Traefik 2 | Proxy for all services.        | `traefik2`   | `traefik.domain.tld` |
 | Portainer | Container management dashboard | `portainer`  | `portainer.domain.tld` |
