@@ -93,7 +93,7 @@ services:
       MYSQL_HOST: nc-db
       MYSQL_DATABASE: nextcloud
       MYSQL_USER: nextcloud
-      MYSQL_PASSWORD: /run/secrets/db_password
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password
     labels:
       - "traefik.enable=true"
       ## HTTP Routers
