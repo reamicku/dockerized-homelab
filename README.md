@@ -74,6 +74,7 @@ This is my homelab. Heavily work in progress.
    If certificates are not present, then check for errors in `logs/traefik.log` file.
 
 1. Shutdown temporary `le-staging.yaml` compose.
+
    ```bash
    docker compose down
    ```
@@ -148,7 +149,7 @@ openssl rand -hex 32 | awk 'BEGIN{ORS="";} {print}' > secrets/db_root_password
 
 ## Security
 
-To improve security, we will make so the files in this directory are only accessible to the  group. This makes the files not globally visible.
+To improve security, we will make so the files in this directory are only accessible to the group. This makes the files not globally visible.
 
 Execute in the root directory of this project.
 
