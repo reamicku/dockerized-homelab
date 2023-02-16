@@ -16,7 +16,7 @@ for DIR in $(pwd)/services/*; do ln -s $(pwd)/.env $DIR/.env > /dev/null; done
 
 ## Traefik2
 echo Traefik2 proxy
-TRAEFIKDIR=$DOCKERDIR/services/traefik2
+TRAEFIKDIR=$DOCKERDIR/appdata/traefik2
 
 echo - Create acme directory
 mkdir -p $TRAEFIKDIR/acme
