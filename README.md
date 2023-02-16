@@ -35,8 +35,7 @@ This is my homelab. Heavily work in progress.
    Copy the example enviroment file and set more restrictive permissions.
 
    ```bash
-   cp .env.example .env
-   chmod 600 .env
+   cp .env.example .env && chmod 600 .env
    ```
 
    Modify values in `.env` file.
