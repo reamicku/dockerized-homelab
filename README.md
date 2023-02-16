@@ -77,6 +77,7 @@ This is my homelab. Heavily work in progress.
    ```bash
    docker compose down
    ```
+
 1. Remove all content from `acme.json` file.
 
    ```bash
@@ -113,7 +114,7 @@ This is my homelab. Heavily work in progress.
 
    If certificates are present, then continue with next step.
 
-1.  Shutdown temporary `le-production-pull.yaml` compose.
+1. Shutdown temporary `le-production-pull.yaml` compose.
 
    ```bash
    docker compose down
