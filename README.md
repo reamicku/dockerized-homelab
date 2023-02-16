@@ -35,6 +35,12 @@ This is my homelab. Heavily work in progress.
     echo $(htpasswd -nb username mystrongpassword) > shared/.htpasswd
    ```
 
+1. Create network for proxy to connect to other services
+
+   ```bash
+   docker network create t2_proxy
+   ```
+
 1. Change directory to `services/traefik2`.
 
    ```bash
@@ -107,7 +113,7 @@ This is my homelab. Heavily work in progress.
 
    If certificates are present, then continue with next step.
 
-1. Shutdown temporary `le-production-pull.yaml` compose.
+1.  Shutdown temporary `le-production-pull.yaml` compose.
 
    ```bash
    docker compose down
