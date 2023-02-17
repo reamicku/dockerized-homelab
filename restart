@@ -1,4 +1,4 @@
 #!/bin/bash
 
-./stop all
-./start all
+./stop $1
+./start $1
