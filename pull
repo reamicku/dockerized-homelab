@@ -1,33 +1,27 @@
 #!/bin/bash
 
 if [ -z $1 ]; then
-  echo "stop <service|all>"
+  echo "pull <service|all>"
   exit 1
 fi
 
-PROXYNAME=traefik2
 INITDIR=$(pwd)
 TARGETDIR=$(pwd)/services/$1
 
 if [ "$1" = "all" ]; then
-  # Stop all other services
+  # Pull images for each service
   for DIR in $(pwd)/services/*; do
     if [ "$(basename $DIR)" != "$PROXYNAME" ]; then
-      echo Stop $(basename $DIR) service
+      echo Pulling images for service $(basename $DIR)
       cd $DIR
-      docker compose down
+      docker compose pull
       cd $INITDIR
     fi
   done
-  # Stop the proxy as last step
-  echo Stop $traefik2 proxy
-  cd services/$PROXYNAME
-  docker compose down
-  cd $INITDIR
 # Specified service does not exist
 elif [ -d "$TARGETDIR" ]; then
   cd $TARGETDIR
-  docker compose down
+  docker compose pull
   cd $INITDIR
 else
   echo "Service '$1' does not exist."

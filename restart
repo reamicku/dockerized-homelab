@@ -1,4 +1,9 @@
 #!/bin/bash
 
+if [ -z $1 ]; then
+  echo "restart <service|all>"
+  exit 1
+fi
+
 ./stop $1
 ./start $1

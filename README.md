@@ -74,7 +74,11 @@ If you want to skip to production deployment, then proceed to the [Production ce
    docker compose -f le-staging.yaml up -d
    ```
 
-1. Confirm that LetsEncrypt staging certificates have been pulled.next
+1. Confirm that LetsEncrypt staging certificates have been pulled.
+
+   ```bash
+   watch grep -e "uri" -e "main" ../../appdata/traefik2/acme/acme.json
+   ```
 
    If certificates are not present, then check for errors in `logs/traefik.log` file.
 
@@ -87,13 +91,13 @@ If you want to skip to production deployment, then proceed to the [Production ce
 1. Remove all content from `acme.json` file.
 
    ```bash
-   > acme/acme.json
+   > ../../appdata/traefik2/acme/acme.json
    ```
 
    Ensure that there is no content:
 
    ```bash
-   cat acme/acme.json
+   cat ../../appdata/traefik2/acme/acme.json
    ```
 
 1. Start up temporary compose `le-production-pull.yaml`.
@@ -108,14 +112,10 @@ If you want to skip to production deployment, then proceed to the [Production ce
 
 1. Confirm that letsencrypt production certificates have been pulled.
 
-   ```bash
-   grep -e "uri" -e "main" acme/acme.json
-   ```
-
    You can watch for them via:
 
    ```bash
-   watch grep -e "uri" -e "main" acme/acme.json
+   watch grep -e "uri" -e "main" ../../appdata/traefik2/acme/acme.json
    ```
 
    If certificates are present, then continue with next step.

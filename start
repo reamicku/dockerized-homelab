@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ -z $1 ]; then
+  echo "start <service|all>"
+  exit 1
+fi
+
 PROXYNAME=traefik2
 INITDIR=$(pwd)
 TARGETDIR=$(pwd)/services/$1
